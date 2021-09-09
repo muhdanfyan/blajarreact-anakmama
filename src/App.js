@@ -1,87 +1,59 @@
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import { Component } from 'react';
 
-// Materi video ke 2 react Sekolah Koding
-// function Biodata(props) {
-//   return <span> umurnya : {props.age}</span>  
-// }
-
-// function Salam(props){
-//   return <h3>Assalamualaykum {props.nama}  - <Biodata age={props.age} /></h3>
-// }
-
-// class Timer extends Component{
-//   constructor(props){
-//     super(props)
-//     this.state = {
-//       time : props.start
-//     }
-//   }
-
-//   componentDidMount(){
-//     this.addInterval = setInterval(() => this.increase(), 1000);
-//   }
-
-//   componentWillUnmount(){
-//     clearInterval(this.addInterval);
-//   }
-
-//   increase(){
-//     // update state time setiap detik
-//     this.setState((state, props) => ({
-//       time : parseInt(state.time) + 1
-//     })
-//     )
-//   }
-
-//   render(){
-//     return (
-//       <div> {this.state.time} detik </div>
-//     )
-//   }
-
-// }
-
-
-// function App() {
-//   return (
-//     <div className="App">
-      
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-        
-//         {/* <Timer start="0" /> */}
-//         {/* <Salam nama="La Ege" age="12" /> */}
-//       </header>
-//     </div>
-//   );
-// }
-
-
-function Clicker(){
-  function handleClick(e){
-    alert ('Mantap!')
-    e.preventDefault()
-  }
-
-  return(
-    <a href="#" onClick={handleClick}>Klik</a>
-  )
+function Home(){
+  return <h2> Halaman Home </h2>
 }
 
+function ListView(){
+  return(
+        <div>
+            <h2> Semua Users </h2>
+            <ul>
+              <li><Link to='user/dadan'>Dadan</Link></li>
+              <li><Link to='user/anwar'>Anwar</Link></li>
+            </ul>
+        </div>
+          
+        )
+}
+
+function DetailView({match}){
+  return <h2> Ini Halaman {match.params.name} </h2>
+}
+
+function NoMatch(){
+  return <h2> 404, halaman tidak ditemukan </h2>
+}
 
 class App extends Component{
+ 
   render (){
-
+    
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          
-        </header>
-        <Clicker />
-      </div>
+
+      <BrowserRouter>
+        <div>
+          <nav>
+            <li> <Link to='/'> Home</Link> </li>
+            <li> <Link to='/users'> User</Link> </li>
+          </nav>
+
+          <main>
+            <Switch>
+              <Route path='/' exact component={Home}/>
+              <Route path='/users' exact component={ListView}/>
+              <Route path='/user/:name' exact component={DetailView}/>
+              <Route component={NoMatch}/>
+
+            </Switch>
+          </main>
+
+        </div>
+      </BrowserRouter>
+
     );
 
   }
